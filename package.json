@@ -11,7 +11,7 @@
   ],
   "homepage": "https://distube.js.org/ytdl-core/",
   "bugs": {
-    "url": "https://github.com/distubejs/ytdl-core/issues"
+    "url": "https://github.com/Leon564/distube-ytdl-core/issues"
   },
   "license": "MIT",
   "author": "Skick (https://github.com/skick1234)",
@@ -27,7 +27,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/distubejs/ytdl-core.git"
+    "url": "git+https://github.com/Leon564/distube-ytdl-core.git"
   },
   "files": [
     "dist",
