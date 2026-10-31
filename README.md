@@ -1,5 +1,14 @@
 # @distube/ytdl-core
 
+> [!NOTE]
+> Personal fork of [distubejs/ytdl-core](https://github.com/distubejs/ytdl-core). `main` follows upstream, and every push builds to the `release` branch so it installs from GitHub without Bun or a compiler, on any platform:
+>
+> ```bash
+> npm install github:Leon564/distube-ytdl-core#release
+> ```
+>
+> Report bugs in this fork [here](https://github.com/Leon564/distube-ytdl-core/issues). To update, run `git fetch upstream && git merge upstream/main` and push.
+
 YouTube video info and downloads for Node.js. A DisTube fork of [fent/node-ytdl-core](https://github.com/fent/node-ytdl-core).
 
 **[Documentation](https://distube.js.org/ytdl-core/)** · [Getting started](https://distube.js.org/ytdl-core/guides/getting-started/) · [API reference](https://distube.js.org/ytdl-core/api/readme/)

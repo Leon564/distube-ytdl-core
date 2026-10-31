@@ -1,0 +1,63 @@
+name: Release branch
+# Installing from git needs built files, and tsrs has no Windows binary. Each push to main verifies, builds and
+# commits the result to the `release` branch, so `github:Leon564/distube-ytdl-core#release` installs with no build.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-branch
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - run: bun install --frozen-lockfile
+
+      # check:node targets Node's own vm, which Bun cannot stand in for.
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22.22.2
+
+      # Also builds dist.
+      - run: bun run verify
+
+      - name: Commit the build to the release branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Build scripts would make npm install devDependencies and run them on the consumer's machine.
+          npm pkg delete scripts devDependencies packageManager
+
+          release="$(mktemp -d)/release"
+          if git fetch origin release; then
+            git worktree add -B release "$release" FETCH_HEAD
+          else
+            git worktree add --orphan -b release "$release"
+          fi
+
+          find "$release" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r dist package.json LICENSE README.md "$release"
+
+          cd "$release"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "The release branch is already up to date"
+          else
+            git commit -m "build: ${GITHUB_SHA::7}"
+            git push origin release
+          fi
