@@ -7,7 +7,7 @@
     "download",
     "distube"
   ],
-  "version": "4.16.12",
+  "version": "4.16.13",
   "repository": {
     "type": "git",
     "url": "git://github.com/distubejs/ytdl-core.git"
@@ -29,26 +29,30 @@
     "lib",
     "typings"
   ],
-  "scripts": {
-    "prettier": "prettier --write \"**/*.{js,json,yml,md,ts}\""
-  },
   "dependencies": {
-    "http-cookie-agent": "^7.0.1",
+    "astring": "^1.9.0",
+    "http-cookie-agent": "^7.0.2",
     "https-proxy-agent": "^7.0.6",
     "m3u8stream": "^0.8.6",
+    "meriyah": "^6.1.4",
     "miniget": "^4.2.3",
     "sax": "^1.4.1",
-    "tough-cookie": "^5.1.2",
+    "tough-cookie": "^6.0.0",
     "undici": "^7.8.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.2",
-    "prettier": "^3.5.3",
-    "typescript": "^5.8.3"
+    "@types/node": "^24.9.1",
+    "esbuild": "^0.28.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=20.18.1"
   },
   "license": "MIT",
-  "funding": "https://github.com/distubejs/ytdl-core?sponsor"
+  "funding": "https://github.com/distubejs/ytdl-core?sponsor",
+  "scripts": {
+    "build:ejs": "esbuild ejs/src/yt/solver/solvers.ts --bundle --platform=node --format=cjs --outfile=lib/ejs-solvers.js --external:meriyah --external:astring",
+    "prettier": "prettier --write \"**/*.{js,json,yml,md,ts}\""
+  }
 }
